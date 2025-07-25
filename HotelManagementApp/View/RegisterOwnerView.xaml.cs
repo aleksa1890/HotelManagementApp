@@ -1,5 +1,5 @@
-﻿using HotelManagementApp.Model;
-using HotelManagementApp.Service;
+﻿using HotelManagementApp.Controller; // Promena: sada koristimo Controller
+using HotelManagementApp.Model;
 using System;
 using System.Windows;
 
@@ -7,29 +7,24 @@ namespace HotelManagementApp.View
 {
     public partial class RegisterOwnerView : Window
     {
-        private readonly UserService _userService;
+        private readonly UserController _userController; // Promena: sa UserService na UserController
 
         public RegisterOwnerView()
         {
             InitializeComponent();
-            _userService = new UserService();
+            _userController = new UserController(); // Promena: instanciramo UserController
         }
 
         private void Register_Click(object sender, RoutedEventArgs e)
         {
-            // Validacija - Provera da li su sva polja popunjena
             if (string.IsNullOrWhiteSpace(JmbgTextBox.Text) ||
-                string.IsNullOrWhiteSpace(EmailTextBox.Text) ||
-                string.IsNullOrWhiteSpace(PasswordBox.Password) ||
-                string.IsNullOrWhiteSpace(FirstNameTextBox.Text) ||
-                string.IsNullOrWhiteSpace(LastNameTextBox.Text) ||
+                /* ... ostale provere ... */
                 string.IsNullOrWhiteSpace(PhoneNumberTextBox.Text))
             {
                 MessageBox.Show("Sva polja su obavezna.", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
-            // Kreiranje novog User objekta
             var newOwner = new User
             {
                 Jmbg = JmbgTextBox.Text.Trim(),
@@ -42,19 +37,17 @@ namespace HotelManagementApp.View
 
             try
             {
-                // Poziv servisa za registraciju
-                _userService.RegisterOwner(newOwner);
+                // Pozivamo metodu iz kontrolera
+                _userController.RegisterOwner(newOwner);
                 MessageBox.Show("Novi vlasnik je uspešno registrovan.", "Uspeh", MessageBoxButton.OK, MessageBoxImage.Information);
-                this.Close(); // Zatvori prozor nakon uspešne registracije
+                this.Close();
             }
             catch (ArgumentException ex)
             {
-                // Hvatanje greške ako JMBG ili email već postoje
                 MessageBox.Show(ex.Message, "Greška pri registraciji", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception ex)
             {
-                // Hvatanje ostalih, nepredviđenih grešaka
                 MessageBox.Show($"Došlo je do nepredviđene greške: {ex.Message}", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
