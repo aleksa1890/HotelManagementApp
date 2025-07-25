@@ -36,14 +36,12 @@ namespace HotelManagementApp.View
                         adminView.Show();
                         break;
                     case UserType.Owner:
-                        // var ownerView = new OwnerView(); // Placeholder
-                        // ownerView.Show();
-                        MessageBox.Show("Owner view would open here.");
+                        var ownerView = new OwnerView(); // Ažurirano
+                        ownerView.Show();                // Ažurirano
                         break;
                     case UserType.Guest:
-                        // var guestView = new GuestView(); // Placeholder
-                        // guestView.Show();
-                        MessageBox.Show("Guest view would open here.");
+                        var guestView = new GuestView(); // Ažurirano
+                        guestView.Show();                // Ažurirano
                         break;
                 }
 

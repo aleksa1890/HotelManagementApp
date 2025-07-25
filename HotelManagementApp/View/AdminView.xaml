@@ -2,63 +2,79 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Admin Dashboard" Height="600" Width="900" WindowStartupLocation="CenterScreen">
-	<Grid Margin="10">
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition Height="*"/>
-		</Grid.RowDefinitions>
+    <TabControl>
+        <TabItem Header="User Management">
+            <Grid Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0" Padding="10" Margin="0,0,0,10" BorderBrush="LightGray" BorderThickness="1">
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel Margin="0,0,20,0">
+                            <Label Content="Filter by type:"/>
+                            <ComboBox x:Name="UserTypeFilterComboBox" Width="120"/>
+                        </StackPanel>
+                        <StackPanel Margin="0,0,10,0">
+                            <Label Content="Sort by:"/>
+                            <ComboBox x:Name="SortByComboBox" Width="120"/>
+                        </StackPanel>
+                        <StackPanel Margin="0,0,20,0">
+                            <Label Content="Direction:"/>
+                            <ComboBox x:Name="SortDirectionComboBox" Width="120"/>
+                        </StackPanel>
+                        <Button x:Name="ApplyUserFilterSortButton" Content="Apply" Width="100" VerticalAlignment="Bottom" Click="ApplyUserFilterSort_Click"/>
+                        <Button Content="Register New Owner" Width="180" VerticalAlignment="Bottom" Margin="40,0,0,0" Click="RegisterOwner_Click"/>
+                    </StackPanel>
+                </Border>
+                <DataGrid Grid.Row="1" x:Name="UsersDataGrid" AutoGenerateColumns="False" IsReadOnly="True" CanUserAddRows="False" ContextMenuOpening="UsersDataGrid_ContextMenuOpening">
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem x:Name="BlockUnblockMenuItem" Header="Block/Unblock" Click="BlockUnblock_Click"/>
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="JMBG" Binding="{Binding Jmbg}" Width="*"/>
+                        <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="*"/>
+                        <DataGridTextColumn Header="First Name" Binding="{Binding FirstName}" Width="*"/>
+                        <DataGridTextColumn Header="Last Name" Binding="{Binding LastName}" Width="*"/>
+                        <DataGridTextColumn Header="Phone" Binding="{Binding PhoneNumber}" Width="*"/>
+                        <DataGridTextColumn Header="User Type" Binding="{Binding UserType}" Width="*"/>
+                        <DataGridTextColumn Header="Is Blocked" Binding="{Binding IsBlocked}" Width="*"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </TabItem>
 
-		<Border Grid.Row="0" Padding="10" Margin="0,0,0,10" BorderBrush="LightGray" BorderThickness="1">
-			<StackPanel Orientation="Horizontal">
-				<StackPanel Margin="0,0,20,0">
-					<Label Content="Filter by type:"/>
-					<ComboBox x:Name="UserTypeFilterComboBox" Width="120">
-						<ComboBoxItem Content="All"/>
-						<ComboBoxItem Content="Guest"/>
-						<ComboBoxItem Content="Owner"/>
-					</ComboBox>
-				</StackPanel>
-
-				<StackPanel Margin="0,0,10,0">
-					<Label Content="Sort by:"/>
-					<ComboBox x:Name="SortByComboBox" Width="120">
-						<ComboBoxItem Content="First Name"/>
-						<ComboBoxItem Content="Last Name"/>
-					</ComboBox>
-				</StackPanel>
-				<StackPanel Margin="0,0,20,0">
-					<Label Content="Direction:"/>
-					<ComboBox x:Name="SortDirectionComboBox" Width="120">
-						<ComboBoxItem Content="Ascending"/>
-						<ComboBoxItem Content="Descending"/>
-					</ComboBox>
-				</StackPanel>
-
-				<Button x:Name="ApplyFilterSortButton" Content="Apply" Width="100" VerticalAlignment="Bottom" Click="ApplyFilterSort_Click"/>
-
-				<Button Content="Register New Owner" Width="180" VerticalAlignment="Bottom" Margin="40,0,0,0" Click="RegisterOwner_Click"/>
-			</StackPanel>
-		</Border>
-
-		<DataGrid Grid.Row="1" x:Name="UsersDataGrid" AutoGenerateColumns="False"
-          IsReadOnly="True" CanUserAddRows="False"
-          ContextMenuOpening="UsersDataGrid_ContextMenuOpening">
-
-			<DataGrid.ContextMenu>
-				<ContextMenu>
-					<MenuItem x:Name="BlockUnblockMenuItem" Header="Block/Unblock" Click="BlockUnblock_Click"/>
-				</ContextMenu>
-			</DataGrid.ContextMenu>
-
-			<DataGrid.Columns>
-				<DataGridTextColumn Header="JMBG" Binding="{Binding Jmbg}" Width="*"/>
-				<DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="*"/>
-				<DataGridTextColumn Header="First Name" Binding="{Binding FirstName}" Width="*"/>
-				<DataGridTextColumn Header="Last Name" Binding="{Binding LastName}" Width="*"/>
-				<DataGridTextColumn Header="Phone" Binding="{Binding PhoneNumber}" Width="*"/>
-				<DataGridTextColumn Header="User Type" Binding="{Binding UserType}" Width="*"/>
-				<DataGridTextColumn Header="Is Blocked" Binding="{Binding IsBlocked}" Width="*"/>
-			</DataGrid.Columns>
-		</DataGrid>
-	</Grid>
+        <TabItem Header="Hotel Overview">
+            <Grid Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0" Padding="10" Margin="0,0,0,10" BorderBrush="LightGray" BorderThickness="1">
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Sort hotels by:" VerticalAlignment="Center" FontWeight="Bold" Margin="0,0,10,0"/>
+                        <StackPanel Margin="0,0,10,0">
+                            <Label Content="Criteria:"/>
+                            <ComboBox x:Name="HotelSortByComboBox" Width="120"/>
+                        </StackPanel>
+                        <StackPanel Margin="0,0,20,0">
+                            <Label Content="Direction:"/>
+                            <ComboBox x:Name="HotelSortDirectionComboBox" Width="120"/>
+                        </StackPanel>
+                        <Button x:Name="ApplyHotelSortButton" Content="Apply Sort" Width="100" VerticalAlignment="Bottom" Click="ApplyHotelSort_Click"/>
+                    </StackPanel>
+                </Border>
+                <DataGrid Grid.Row="1" x:Name="HotelsDataGrid" AutoGenerateColumns="False" IsReadOnly="True" CanUserAddRows="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Code" Binding="{Binding Code}" Width="100"/>
+                        <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*"/>
+                        <DataGridTextColumn Header="Year Built" Binding="{Binding YearBuilt}" Width="120"/>
+                        <DataGridTextColumn Header="Stars" Binding="{Binding Stars}" Width="100"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </TabItem>
+    </TabControl>
 </Window>

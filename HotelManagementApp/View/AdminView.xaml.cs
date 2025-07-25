@@ -9,85 +9,101 @@ namespace HotelManagementApp.View
     public partial class AdminView : Window
     {
         private readonly UserController _userController;
+        private readonly HotelController _hotelController;
 
         public AdminView()
         {
             InitializeComponent();
             _userController = new UserController();
+            _hotelController = new HotelController();
 
-            // Set default selections for ComboBoxes
-            UserTypeFilterComboBox.SelectedIndex = 0; // All
-            SortByComboBox.SelectedIndex = 0; // First Name
-            SortDirectionComboBox.SelectedIndex = 0; // Ascending
+            InitializeUserTab();
+            InitializeHotelTab();
 
             LoadUsers();
+            LoadHotels();
+        }
+
+        #region User Management
+        private void InitializeUserTab()
+        {
+            UserTypeFilterComboBox.ItemsSource = new string[] { "All", "Guest", "Owner" };
+            SortByComboBox.ItemsSource = new string[] { "First Name", "Last Name" };
+            SortDirectionComboBox.ItemsSource = new string[] { "Ascending", "Descending" };
+
+            UserTypeFilterComboBox.SelectedIndex = 0;
+            SortByComboBox.SelectedIndex = 0;
+            SortDirectionComboBox.SelectedIndex = 0;
         }
 
         private void LoadUsers()
         {
-            ApplyFilterSort_Click(null, null);
+            ApplyUserFilterSort_Click(null, null);
         }
 
-        private void ApplyFilterSort_Click(object sender, RoutedEventArgs e)
+        private void ApplyUserFilterSort_Click(object sender, RoutedEventArgs e)
         {
-            string userTypeStr = (UserTypeFilterComboBox.SelectedItem as ComboBoxItem)?.Content.ToString();
-            string sortBy = (SortByComboBox.SelectedItem as ComboBoxItem)?.Content.ToString();
-            string sortDirection = (SortDirectionComboBox.SelectedItem as ComboBoxItem)?.Content.ToString();
+            string userTypeStr = UserTypeFilterComboBox.SelectedItem as string;
+            string sortBy = SortByComboBox.SelectedItem as string;
+            string sortDirection = SortDirectionComboBox.SelectedItem as string;
 
             UserType? filterType = null;
-            if (userTypeStr == "Guest")
-            {
-                filterType = UserType.Guest;
-            }
-            else if (userTypeStr == "Owner")
-            {
-                filterType = UserType.Owner;
-            }
+            if (userTypeStr == "Guest") filterType = UserType.Guest;
+            else if (userTypeStr == "Owner") filterType = UserType.Owner;
 
-            var users = _userController.GetUsers(filterType, sortBy, sortDirection);
-
-            UsersDataGrid.ItemsSource = users;
+            UsersDataGrid.ItemsSource = _userController.GetUsers(filterType, sortBy, sortDirection);
         }
 
         private void RegisterOwner_Click(object sender, RoutedEventArgs e)
         {
             var registerOwnerView = new RegisterOwnerView();
             registerOwnerView.ShowDialog();
-
             LoadUsers();
         }
 
-
         private void UsersDataGrid_ContextMenuOpening(object sender, ContextMenuEventArgs e)
         {
-            // Proveri da li je neki korisnik selektovan
             User selectedUser = UsersDataGrid.SelectedItem as User;
-
+            BlockUnblockMenuItem.IsEnabled = selectedUser != null;
             if (selectedUser != null)
             {
-                BlockUnblockMenuItem.IsEnabled = true;
-                // Dinamički postavi tekst menija u zavisnosti od statusa korisnika
                 BlockUnblockMenuItem.Header = selectedUser.IsBlocked ? "Unblock" : "Block";
-            }
-            else
-            {
-                // Ako nijedan red nije selektovan, onemogući opciju
-                BlockUnblockMenuItem.IsEnabled = false;
             }
         }
 
         private void BlockUnblock_Click(object sender, RoutedEventArgs e)
         {
             User selectedUser = UsersDataGrid.SelectedItem as User;
-
             if (selectedUser != null)
             {
-                // Pozovi kontroler da promeni status
                 _userController.ToggleUserBlockStatus(selectedUser.Jmbg);
-
-                // Osveži prikaz u tabeli da se vidi promena
                 LoadUsers();
             }
         }
+        #endregion
+
+        #region Hotel Management
+        private void InitializeHotelTab()
+        {
+            HotelSortByComboBox.ItemsSource = new string[] { "Name", "Stars" };
+            HotelSortDirectionComboBox.ItemsSource = new string[] { "Ascending", "Descending" };
+
+            HotelSortByComboBox.SelectedIndex = 0;
+            HotelSortDirectionComboBox.SelectedIndex = 0;
+        }
+
+        private void LoadHotels()
+        {
+            ApplyHotelSort_Click(null, null);
+        }
+
+        private void ApplyHotelSort_Click(object sender, RoutedEventArgs e)
+        {
+            string sortBy = HotelSortByComboBox.SelectedItem as string;
+            string sortDirection = HotelSortDirectionComboBox.SelectedItem as string;
+
+            HotelsDataGrid.ItemsSource = _hotelController.GetHotels(sortBy, sortDirection);
+        }
+        #endregion
     }
 }

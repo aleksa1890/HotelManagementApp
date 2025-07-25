@@ -1,0 +1,33 @@
+<Window x:Class="HotelManagementApp.View.OwnerView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Welcome, Owner" Height="500" Width="800" WindowStartupLocation="CenterScreen">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Border Grid.Row="0" Padding="10" Margin="0,0,0,10" BorderBrush="LightGray" BorderThickness="1">
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Sort hotels by:" VerticalAlignment="Center" FontWeight="Bold" Margin="0,0,10,0"/>
+                <StackPanel Margin="0,0,10,0">
+                    <Label Content="Criteria:"/>
+                    <ComboBox x:Name="SortByComboBox" Width="120"/>
+                </StackPanel>
+                <StackPanel Margin="0,0,20,0">
+                    <Label Content="Direction:"/>
+                    <ComboBox x:Name="SortDirectionComboBox" Width="120"/>
+                </StackPanel>
+                <Button x:Name="ApplySortButton" Content="Apply Sort" Width="100" VerticalAlignment="Bottom" Click="ApplySort_Click"/>
+            </StackPanel>
+        </Border>
+        <DataGrid Grid.Row="1" x:Name="HotelsDataGrid" AutoGenerateColumns="False" IsReadOnly="True" CanUserAddRows="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Code" Binding="{Binding Code}" Width="100"/>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*"/>
+                <DataGridTextColumn Header="Year Built" Binding="{Binding YearBuilt}" Width="120"/>
+                <DataGridTextColumn Header="Stars" Binding="{Binding Stars}" Width="100"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>
