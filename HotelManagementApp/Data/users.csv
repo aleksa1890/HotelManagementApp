@@ -1,0 +1,5 @@
+Jmbg,Email,Password,FirstName,LastName,PhoneNumber,UserType,IsBlocked
+1111111111111,admin@app.com,admin123,Admin,Adminic,061111111,Administrator,False
+2222222222222,owner@app.com,owner123,Petar,Petrovic,062222222,Owner,False
+3333333333333,guest@app.com,guest123,Marko,Markovic,063333333,Guest,False
+4444444444444,blocked@app.com,blocked123,Milan,Milanovic,064444444,Guest,True

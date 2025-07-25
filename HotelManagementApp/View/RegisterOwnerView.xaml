@@ -1,0 +1,35 @@
+<Window x:Class="HotelManagementApp.View.RegisterOwnerView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Registracija novog vlasnika" Height="450" Width="400" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <StackPanel Margin="20">
+            <Label Content="JMBG:"/>
+            <TextBox x:Name="JmbgTextBox" Margin="0,0,0,10"/>
+
+            <Label Content="Email:"/>
+            <TextBox x:Name="EmailTextBox" Margin="0,0,0,10"/>
+
+            <Label Content="Lozinka (Password):"/>
+            <PasswordBox x:Name="PasswordBox" Margin="0,0,0,10"/>
+
+            <Label Content="Ime (First Name):"/>
+            <TextBox x:Name="FirstNameTextBox" Margin="0,0,0,10"/>
+
+            <Label Content="Prezime (Last Name):"/>
+            <TextBox x:Name="LastNameTextBox" Margin="0,0,0,10"/>
+
+            <Label Content="Mobilni telefon (Phone Number):"/>
+            <TextBox x:Name="PhoneNumberTextBox" Margin="0,0,0,20"/>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Content="Register" Margin="5" Click="Register_Click"/>
+                <Button Grid.Column="1" Content="Cancel" Margin="5" IsCancel="True"/>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</Window>
