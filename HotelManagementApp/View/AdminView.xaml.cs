@@ -1,6 +1,5 @@
 ﻿using HotelManagementApp.Controller;
 using HotelManagementApp.Model;
-using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -25,12 +24,10 @@ namespace HotelManagementApp.View
         }
 
         #region User Management
+
         private void InitializeUserTab()
         {
-            UserTypeFilterComboBox.ItemsSource = new string[] { "All", "Guest", "Owner" };
-            SortByComboBox.ItemsSource = new string[] { "First Name", "Last Name" };
-            SortDirectionComboBox.ItemsSource = new string[] { "Ascending", "Descending" };
-
+            // Postavljanje podrazumevanih vrednosti
             UserTypeFilterComboBox.SelectedIndex = 0;
             SortByComboBox.SelectedIndex = 0;
             SortDirectionComboBox.SelectedIndex = 0;
@@ -43,9 +40,9 @@ namespace HotelManagementApp.View
 
         private void ApplyUserFilterSort_Click(object sender, RoutedEventArgs e)
         {
-            string userTypeStr = UserTypeFilterComboBox.SelectedItem as string;
-            string sortBy = SortByComboBox.SelectedItem as string;
-            string sortDirection = SortDirectionComboBox.SelectedItem as string;
+            string userTypeStr = UserTypeFilterComboBox.Text;
+            string sortBy = SortByComboBox.Text;
+            string sortDirection = SortDirectionComboBox.Text;
 
             UserType? filterType = null;
             if (userTypeStr == "Guest") filterType = UserType.Guest;
@@ -80,16 +77,17 @@ namespace HotelManagementApp.View
                 LoadUsers();
             }
         }
+
         #endregion
 
         #region Hotel Management
+
         private void InitializeHotelTab()
         {
-            HotelSortByComboBox.ItemsSource = new string[] { "Name", "Stars" };
-            HotelSortDirectionComboBox.ItemsSource = new string[] { "Ascending", "Descending" };
-
+            // Postavljanje podrazumevanih vrednosti
             HotelSortByComboBox.SelectedIndex = 0;
             HotelSortDirectionComboBox.SelectedIndex = 0;
+            HotelSearchByComboBox.SelectedIndex = 0;
         }
 
         private void LoadHotels()
@@ -99,11 +97,61 @@ namespace HotelManagementApp.View
 
         private void ApplyHotelSort_Click(object sender, RoutedEventArgs e)
         {
-            string sortBy = HotelSortByComboBox.SelectedItem as string;
-            string sortDirection = HotelSortDirectionComboBox.SelectedItem as string;
+            string sortBy = HotelSortByComboBox.Text;
+            string sortDirection = HotelSortDirectionComboBox.Text;
 
             HotelsDataGrid.ItemsSource = _hotelController.GetHotels(sortBy, sortDirection);
         }
+
+        private void HotelSearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            string searchBy = HotelSearchByComboBox.Text;
+            string searchValue = HotelSearchValueTextBox.Text;
+            HotelsDataGrid.ItemsSource = _hotelController.SearchHotels(searchBy, searchValue, null, null, null);
+        }
+
+        private void HotelClearSearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            HotelSearchValueTextBox.Clear();
+            HotelRoomsTextBox.Clear();
+            HotelGuestsTextBox.Clear();
+            HotelOperatorTextBox.Text = "&";
+            LoadHotels();
+        }
+
+        private void HotelSearchByComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (HotelSearchByComboBox.SelectedItem is ComboBoxItem selectedItem)
+            {
+                string searchBy = selectedItem.Content.ToString();
+                if (searchBy == "Apartments")
+                {
+                    HotelStandardSearchPanel.Visibility = Visibility.Collapsed;
+                    HotelApartmentSearchPanel.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    HotelStandardSearchPanel.Visibility = Visibility.Visible;
+                    HotelApartmentSearchPanel.Visibility = Visibility.Collapsed;
+                }
+            }
+        }
+
+        private void HotelApartmentSearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            string rooms = HotelRoomsTextBox.Text;
+            string guests = HotelGuestsTextBox.Text;
+            string op = HotelOperatorTextBox.Text;
+            HotelsDataGrid.ItemsSource = _hotelController.SearchHotels("Apartments", null, rooms, guests, op);
+        }
+
+        private void AddHotel_Click(object sender, RoutedEventArgs e)
+        {
+            var addHotelView = new AddHotelView();
+            addHotelView.ShowDialog();
+            // Ne moramo da zovemo LoadHotels() jer novi hotel svakako nije odobren i neće se videti
+        }
+
         #endregion
     }
 }

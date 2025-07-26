@@ -20,5 +20,31 @@ namespace HotelManagementApp.Controller
         {
             return _hotelService.GetHotels(sortBy, sortDirection);
         }
+
+        public List<Hotel> SearchHotels(string searchBy, string searchValue, string rooms = null, string guests = null, string op = null)
+        {
+            return _hotelService.SearchHotels(searchBy, searchValue, rooms, guests, op);
+        }
+
+        public Hotel CreateHotel(Hotel newHotel)
+        {
+            return _hotelService.CreateHotel(newHotel);
+        }
+
+
+        public List<Hotel> GetHotelsForOwner(string ownerJmbg)
+        {
+            return _hotelService.GetHotelsForOwner(ownerJmbg);
+        }
+
+        public void ApproveHotel(string hotelCode)
+        {
+            _hotelService.ApproveHotel(hotelCode);
+        }
+
+        public void DenyHotel(string hotelCode)
+        {
+            _hotelService.DenyHotel(hotelCode);
+        }
     }
 }

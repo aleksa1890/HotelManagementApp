@@ -23,9 +23,12 @@ namespace HotelManagementApp.Model
         // Ključ rečnika će biti jedinstveno ime apartmana.
         public Dictionary<string, Apartment> Apartments { get; set; }
 
+        public bool IsApproved { get; set; }
+
         public Hotel()
         {
             Apartments = new Dictionary<string, Apartment>();
+            IsApproved = false; // Podrazumevana vrednost je da hotel nije odobren
         }
     }
 }

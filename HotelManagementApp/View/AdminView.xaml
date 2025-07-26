@@ -13,15 +13,25 @@
                     <StackPanel Orientation="Horizontal">
                         <StackPanel Margin="0,0,20,0">
                             <Label Content="Filter by type:"/>
-                            <ComboBox x:Name="UserTypeFilterComboBox" Width="120"/>
+                            <ComboBox x:Name="UserTypeFilterComboBox" Width="120">
+                                <ComboBoxItem Content="All"/>
+                                <ComboBoxItem Content="Guest"/>
+                                <ComboBoxItem Content="Owner"/>
+                            </ComboBox>
                         </StackPanel>
                         <StackPanel Margin="0,0,10,0">
                             <Label Content="Sort by:"/>
-                            <ComboBox x:Name="SortByComboBox" Width="120"/>
+                            <ComboBox x:Name="SortByComboBox" Width="120">
+                                <ComboBoxItem Content="First Name"/>
+                                <ComboBoxItem Content="Last Name"/>
+                            </ComboBox>
                         </StackPanel>
                         <StackPanel Margin="0,0,20,0">
                             <Label Content="Direction:"/>
-                            <ComboBox x:Name="SortDirectionComboBox" Width="120"/>
+                            <ComboBox x:Name="SortDirectionComboBox" Width="120">
+                                <ComboBoxItem Content="Ascending"/>
+                                <ComboBoxItem Content="Descending"/>
+                            </ComboBox>
                         </StackPanel>
                         <Button x:Name="ApplyUserFilterSortButton" Content="Apply" Width="100" VerticalAlignment="Bottom" Click="ApplyUserFilterSort_Click"/>
                         <Button Content="Register New Owner" Width="180" VerticalAlignment="Bottom" Margin="40,0,0,0" Click="RegisterOwner_Click"/>
@@ -53,17 +63,62 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Border Grid.Row="0" Padding="10" Margin="0,0,0,10" BorderBrush="LightGray" BorderThickness="1">
-                    <StackPanel Orientation="Horizontal">
-                        <Label Content="Sort hotels by:" VerticalAlignment="Center" FontWeight="Bold" Margin="0,0,10,0"/>
-                        <StackPanel Margin="0,0,10,0">
-                            <Label Content="Criteria:"/>
-                            <ComboBox x:Name="HotelSortByComboBox" Width="120"/>
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                            <Label Content="Sort hotels by:" VerticalAlignment="Center" FontWeight="Bold" Margin="0,0,10,0"/>
+                            <StackPanel Margin="0,0,10,0">
+                                <Label Content="Criteria:"/>
+                                <ComboBox x:Name="HotelSortByComboBox" Width="120">
+                                    <ComboBoxItem Content="Name"/>
+                                    <ComboBoxItem Content="Stars"/>
+                                </ComboBox>
+                            </StackPanel>
+                            <StackPanel Margin="0,0,20,0">
+                                <Label Content="Direction:"/>
+                                <ComboBox x:Name="HotelSortDirectionComboBox" Width="120">
+                                    <ComboBoxItem Content="Ascending"/>
+                                    <ComboBoxItem Content="Descending"/>
+                                </ComboBox>
+                            </StackPanel>
+                            <Button x:Name="ApplyHotelSortButton" Content="Apply Sort" Width="100" VerticalAlignment="Bottom" Click="ApplyHotelSort_Click"/>
+                            <Button Content="Add New Hotel" Width="120" VerticalAlignment="Bottom" Margin="20,0,0,0" Click="AddHotel_Click"/>
                         </StackPanel>
-                        <StackPanel Margin="0,0,20,0">
-                            <Label Content="Direction:"/>
-                            <ComboBox x:Name="HotelSortDirectionComboBox" Width="120"/>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Search hotels:" VerticalAlignment="Center" FontWeight="Bold" Margin="0,0,10,0"/>
+                            <StackPanel Margin="0,0,10,0">
+                                <Label Content="Search by:"/>
+                                <ComboBox x:Name="HotelSearchByComboBox" Width="120" SelectionChanged="HotelSearchByComboBox_SelectionChanged">
+                                    <ComboBoxItem Content="Name"/>
+                                    <ComboBoxItem Content="Code"/>
+                                    <ComboBoxItem Content="Year Built"/>
+                                    <ComboBoxItem Content="Stars"/>
+                                    <ComboBoxItem Content="Apartments"/>
+                                </ComboBox>
+                            </StackPanel>
+                            <StackPanel x:Name="HotelStandardSearchPanel" Orientation="Horizontal">
+                                <StackPanel Margin="0,0,20,0">
+                                    <Label Content="Search value:"/>
+                                    <TextBox x:Name="HotelSearchValueTextBox" Width="120" />
+                                </StackPanel>
+                                <Button x:Name="HotelSearchButton" Content="Search" Width="100" VerticalAlignment="Bottom" Click="HotelSearchButton_Click"/>
+                            </StackPanel>
+                            <StackPanel x:Name="HotelApartmentSearchPanel" Orientation="Horizontal" Visibility="Collapsed">
+                                <StackPanel Margin="0,0,10,0">
+                                    <Label Content="Rooms:"/>
+                                    <TextBox x:Name="HotelRoomsTextBox" Width="60" />
+                                </StackPanel>
+                                <StackPanel Margin="0,0,10,0">
+                                    <Label Content="Guests:"/>
+                                    <TextBox x:Name="HotelGuestsTextBox" Width="60" />
+                                </StackPanel>
+                                <StackPanel Margin="0,0,20,0">
+                                    <Label Content="Operator (&amp; or |):"/>
+                                    <TextBox x:Name="HotelOperatorTextBox" Width="40" Text="&amp;" ToolTip="Use '&amp;' for AND, '|' for OR. Leave a field empty to search by only one parameter."/>
+                                </StackPanel>
+                                <Button x:Name="HotelApartmentSearchButton" Content="Search" Width="100" VerticalAlignment="Bottom" Click="HotelApartmentSearchButton_Click"/>
+                            </StackPanel>
+                            <Button x:Name="HotelClearSearchButton" Content="Clear" Width="100" VerticalAlignment="Bottom" Margin="5,0,0,0" Click="HotelClearSearchButton_Click"/>
                         </StackPanel>
-                        <Button x:Name="ApplyHotelSortButton" Content="Apply Sort" Width="100" VerticalAlignment="Bottom" Click="ApplyHotelSort_Click"/>
                     </StackPanel>
                 </Border>
                 <DataGrid Grid.Row="1" x:Name="HotelsDataGrid" AutoGenerateColumns="False" IsReadOnly="True" CanUserAddRows="False">

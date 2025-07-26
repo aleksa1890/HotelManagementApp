@@ -25,32 +25,31 @@ namespace HotelManagementApp.View
 
             if (loggedInUser != null)
             {
-                // Successful login
                 MessageBox.Show($"Welcome, {loggedInUser.FirstName}!", "Success");
 
-                // Open the appropriate window based on user type
                 switch (loggedInUser.UserType)
                 {
                     case UserType.Administrator:
                         var adminView = new AdminView();
                         adminView.Show();
                         break;
+
                     case UserType.Owner:
-                        var ownerView = new OwnerView(); // Ažurirano
-                        ownerView.Show();                // Ažurirano
+                        // OVA LINIJA JE ISPRAVLJENA
+                        var ownerView = new OwnerView(loggedInUser);
+                        ownerView.Show();
                         break;
+
                     case UserType.Guest:
-                        var guestView = new GuestView(); // Ažurirano
-                        guestView.Show();                // Ažurirano
+                        var guestView = new GuestView();
+                        guestView.Show();
                         break;
                 }
 
-                // Close the login window after opening the new one
                 this.Close();
             }
             else
             {
-                // Failed login
                 _loginAttempts--;
                 if (_loginAttempts > 0)
                 {
